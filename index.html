@@ -11,14 +11,34 @@
             height: 50vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* align-items: center; */
         }
         p {
             margin-top: 20px;
         }
         select {
             width: 100%;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
+            height: 3em;
+            line-height: 3em;
+        }
+        input{
+            margin-top: 20px;
+            height: 3em;
+        }
+        input[type='button']{
+            height: 3em;
+            /* width: 10em; */
+        }
+        body{
+            font-size: 24px;
+        }
+        h1{
+            text-align: center;
+        }
+        .wrapper, .inp-div{
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
@@ -32,11 +52,12 @@
                 <option value="mmarkt">Mediamarkt</option>
                 <option value="xkom">X-KOM</option>
             </select>
-            <br>
-            <label for="price">Цена</label>
-            <input id="price" type="text" placeholder="Введите цену"
+            <div class="inp-div">
+                <!-- <label for="price">Цена</label> -->
+                <input id="price" type="text" placeholder="Введите цену"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
             <input id="button" type="button" value="рассчитать">
+            </div>
             <p id="vat"></p>
         </div>
     </div>
