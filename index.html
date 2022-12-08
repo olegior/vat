@@ -13,8 +13,17 @@
             justify-content: center;
             align-items: center;
         }
-        .container div,p{
+
+        .wrapper>div{
             padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .wrapper div div{
+            padding-bottom: 5px;
+        }
+        p{
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -23,13 +32,21 @@
     <div class="container">
         <div class="wrapper">
             <div>
-                <input type="radio" name="sklep" id="rtv" value="rtv" checked>
-                <label for="rtv">RTV Euro AGD</label>
-                <input type="radio" name="sklep" id="mediamarkt" value="mmarkt">
-                <label for="mediamarkt">Mediamarkt</label>
+                <div>
+                    <label for="rtv">RTV Euro AGD</label>
+                    <input type="radio" name="sklep" id="rtv" value="rtv" checked>
+                </div>
+                <div>
+                    <label for="rtv">X-KOM</label>
+                    <input type="radio" name="sklep" id="xkom" value="xkom">
+                </div>
+                <div>
+                    <label for="mediamarkt">Mediamarkt</label>
+                    <input type="radio" name="sklep" id="mediamarkt" value="mmarkt">
+                </div>
             </div>
             <label for="price">Цена</label>
-            <input id="price" type="text" placeholder="Введите цену" 
+            <input id="price" type="text" placeholder="Введите цену"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
             <input id="button" type="button" value="рассчитать">
             <p id="vat"></p>
@@ -43,10 +60,18 @@
                 if (element.checked)
                     sklep = element.value
             });
-            if (sklep === 'rtv')
-                document.getElementById("vat").textContent = Math.round(Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100 * 0.9)
-            else if (sklep === 'mmarkt')
-                document.getElementById("vat").textContent = Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100
+            document.getElementById("vat").textContent = "Возврат: "
+            switch (sklep) {
+                case 'rtv':
+                    document.getElementById("vat").textContent += Math.round(Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100 * 0.9);
+                    break;
+                case 'mmarkt':
+                    document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100;
+                    break;
+                case 'xkom':
+                    document.getElementById("vat").textContent += (Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100) - 49;
+                    break;
+            }
         }
     </script>
 </body>
