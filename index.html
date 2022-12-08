@@ -8,22 +8,17 @@
     <title>Калькулятор возврата VAT</title>
     <style>
         .container {
-            height: 100vh;
+            height: 50vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        .wrapper>div{
-            padding-bottom: 20px;
-            display: flex;
-            flex-direction: column;
+        p {
+            margin-top: 20px;
         }
-        .wrapper div div{
-            padding-bottom: 5px;
-        }
-        p{
-            padding-top: 20px;
+        select {
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -31,20 +26,13 @@
 <body>
     <div class="container">
         <div class="wrapper">
-            <div>
-                <div>
-                    <label for="rtv">RTV Euro AGD</label>
-                    <input type="radio" name="sklep" id="rtv" value="rtv" checked>
-                </div>
-                <div>
-                    <label for="rtv">X-KOM</label>
-                    <input type="radio" name="sklep" id="xkom" value="xkom">
-                </div>
-                <div>
-                    <label for="mediamarkt">Mediamarkt</label>
-                    <input type="radio" name="sklep" id="mediamarkt" value="mmarkt">
-                </div>
-            </div>
+            <h1>Калькулятор возврата VAT</h1>
+            <select name="sklep" id="sklep-select">
+                <option value="rtv">RTV Euro AGD</option>
+                <option value="mmarkt">Mediamarkt</option>
+                <option value="xkom">X-KOM</option>
+            </select>
+            <br>
             <label for="price">Цена</label>
             <input id="price" type="text" placeholder="Введите цену"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
@@ -55,11 +43,7 @@
     <script>
         document.getElementById('button').onclick = function () {
             let price = document.getElementById('price').value
-            let sklep = document.getElementsByName('sklep')
-            sklep.forEach(element => {
-                if (element.checked)
-                    sklep = element.value
-            });
+            let sklep = document.getElementById('sklep-select').value
             document.getElementById("vat").textContent = "Возврат: "
             switch (sklep) {
                 case 'rtv':
@@ -69,7 +53,9 @@
                     document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100;
                     break;
                 case 'xkom':
-                    document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100 - 49) * 100) / 100;
+                    (Math.round((price - Math.round(price / 1.23 * 100) / 100 - 49) * 100) / 100>0)?
+                    document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100 - 49) * 100) / 100
+                    :document.getElementById("vat").textContent += 'За оформление бланка возьмут 49 zl! Это больше чем VAT к возврату!';    
                     break;
             }
         }
