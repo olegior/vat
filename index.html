@@ -69,7 +69,7 @@
                     document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100;
                     break;
                 case 'xkom':
-                    document.getElementById("vat").textContent += (Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100) - 49;
+                    document.getElementById("vat").textContent += Math.round((price - Math.round(price / 1.23 * 100) / 100 - 49) * 100) / 100;
                     break;
             }
         }
