@@ -62,8 +62,7 @@
             <div class="inp-div">
                 <!-- <label for="price">Цена</label> -->
                 <input id="price" type="text" placeholder="Введите цену"
-                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');"
-                value="2557.98">
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
             <input id="button" type="button" value="рассчитать">
             </div>
             <p id="vat"></p>
@@ -92,7 +91,7 @@
             const standartVat = (v) =>{
                 return roundV(v-roundV(v/1.23))
             }
-            console.log(roundV(standartVat(v)*obj.percent-obj.rate))
+            // console.log(roundV(standartVat(v)*obj.percent-obj.rate))
             return roundV(standartVat(v)*obj.percent-obj.rate)
         }
         document.getElementById('button').onclick = function () {
@@ -101,7 +100,7 @@
             document.getElementById("vat").textContent = "Возврат: "
             switch (sklep) {
                 case 'rtv':
-                        // неправильно по математике, но сходится с фактом
+                        // неправильно по математике, но сходится с фактом хз почему
                         document.getElementById("vat").textContent += Math.round(Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100 * 0.9);
                         // document.getElementById("vat").textContent +=calcVat(price, rtv_sklep)
                         break;
