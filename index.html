@@ -10,31 +10,27 @@
             height: 50vh;
             display: flex;
             justify-content: center;
-            /* align-items: center; */
         }
         p {
             margin-top: 20px;
         }
         select {
             width: 100%;
-            /* margin-bottom: 20px; */
             height: 3em;
             line-height: 3em;
             border-radius: 5px;
             border: none;
-            /* color: #e9c46a; */
-            /* background-color: #eae2b7; */
         }
         input{
             margin-top: 20px;
             height: 2.5em;
             border-radius: 5px;
             border: none;
-            /* background-color: #eae2b7; */
         }
         input[type='button']{
             height: 3em;
-            /* width: 10em; */
+            text-transform: uppercase;
+            cursor: pointer;
         }
         body{
             font-size: 24px;
@@ -60,60 +56,40 @@
                 <option value="xkom">X-KOM</option>
             </select>
             <div class="inp-div">
-                <!-- <label for="price">Цена</label> -->
                 <input id="price" type="text" placeholder="Введите цену"
                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
-            <input id="button" type="button" value="рассчитать">
+                <input id="button" type="button" value="рассчитать">
             </div>
             <p id="vat"></p>
         </div>
     </div>
     <script>
-        const defaultSklep={
-            percent: 1,
-            rate: 0
-        }
-        const rtv_sklep = {
-            ...defaultSklep,
-            percent:0.9
-        }
-        const mmarkt_sklep = {
-            ...defaultSklep
-        }
-        const xkom_sklep={
-            ...defaultSklep,
-            rate: 49
-        }
-        const calcVat = (v,obj) => {
-            const roundV = (v) => {
-                return Math.round(v*100)/100
-            }
-            const standartVat = (v) =>{
-                return roundV(v-roundV(v/1.23))
-            }
-            // console.log(roundV(standartVat(v)*obj.percent-obj.rate))
-            return roundV(standartVat(v)*obj.percent-obj.rate)
-        }
-        document.getElementById('button').onclick = function () {
+        const calculate= ()=>{
             const price = document.getElementById('price').value
             const sklep = document.getElementById('sklep-select').value
-            document.getElementById("vat").textContent = "Возврат: "
+            document.getElementById("vat").textContent = "Возврат составит: "
             switch (sklep) {
                 case 'rtv':
-                        // неправильно по математике, но сходится с фактом хз почему
-                        document.getElementById("vat").textContent += Math.round(Math.round((price - Math.round(price / 1.23 * 100) / 100) * 100) / 100 * 0.9);
-                        // document.getElementById("vat").textContent +=calcVat(price, rtv_sklep)
-                        break;
+                    document.getElementById("vat").textContent +=`${Math.round(calcVat(price)*0.9)} zl.`
+                    break;
                 case 'mmarkt':
-                    document.getElementById("vat").textContent +=calcVat(price, mmarkt_sklep)
+                    document.getElementById("vat").textContent +=`${Math.round(calcVat(price)*100)/100} zl. Оформляют ли на акционный товар?`
                     break;
                 case 'xkom':
-                    (calcVat(price, xkom_sklep)>0)?
-                    document.getElementById("vat").textContent +=calcVat(price, xkom_sklep)
-                    :document.getElementById("vat").textContent += 'За оформление бланка возьмут 49 zl! Это больше чем VAT к возврату!'  
+                    document.getElementById("vat").textContent += `${Math.floor(calcVat(price))} zl. За оформление Tax Free надо заплатить 49 zl!`
                     break;
             }
         }
+        const calcVat = (v) => {
+            return v-Math.round(v/1.23*100)/100
+        }
+        document.getElementById('button').onclick = function () {
+            calculate()
+        }
+        document.getElementById('price').addEventListener('keydown', function (e){
+            if (e.keyCode === 13)
+                calculate()
+        })
     </script>
 </body>
 </html>
