@@ -7,7 +7,7 @@
     <title>Калькулятор возврата VAT</title>
     <style>
         .container {
-            height: 50vh;
+            /* height: 50vh; */
             display: flex;
             justify-content: center;
         }
@@ -64,7 +64,7 @@
         </div>
     </div>
     <script>
-        const calculate= ()=>{
+        const calculate = () => {
             const price = document.getElementById('price').value
             const sklep = document.getElementById('sklep-select').value
             document.getElementById("vat").textContent = "Возврат составит: "
